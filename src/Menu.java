@@ -4,7 +4,9 @@ import javax.swing.*;
 
 public class Menu extends JFrame implements ActionListener {
     private JButton startBtn;
+    private JButton quitBtn;
     private JLabel title;
+    public int highScore = 0;
 
     public Menu() {
         super("Snake Game");
@@ -16,20 +18,36 @@ public class Menu extends JFrame implements ActionListener {
         container.setLocationRelativeTo(null);
         container.getContentPane().setBackground(Color.BLACK);
 
+        // start game button
         startBtn = new JButton("Start Game");
         startBtn.setBackground(Color.green);
         startBtn.setPreferredSize(new Dimension(100, 50));
         startBtn.addActionListener(this);
+        startBtn.setBorderPainted(false);
+        startBtn.setFocusPainted(false);
 
+        // quit button
+        quitBtn = new JButton("Quit");
+        quitBtn.setBackground(Color.green);
+        quitBtn.setPreferredSize(new Dimension(100, 50));
+        quitBtn.addActionListener(this);
+        quitBtn.setBorderPainted(false);
+        quitBtn.setFocusPainted(false);
+
+        // menu title
         title = new JLabel("Snake Game");
         title.setFont(new Font("Arial", Font.BOLD, 60));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setForeground(Color.green);
 
+        // panel with the button and highscore
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.add(startBtn);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        buttonsPanel.add(quitBtn);
         buttonsPanel.setBackground(Color.BLACK);
 
+        // snake image
         ImageIcon icon = new ImageIcon(getClass().getResource("/images/snakeImage.jpg"));
         Image smallerImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); // Change size as needed
         ImageIcon smallerIcon = new ImageIcon(smallerImage);
@@ -46,6 +64,11 @@ public class Menu extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        new GameFrame();
+        if (e.getSource() == startBtn) {
+            new GameFrame();
+        }
+        else if (e.getSource() == quitBtn) {
+            System.exit(0);
+        }
     }
 }

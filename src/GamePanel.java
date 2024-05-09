@@ -85,6 +85,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         running = false;
         setBackground(Color.red);
         JOptionPane.showMessageDialog(null, "gameOver");
+        
         container.dispose();
     }
 
