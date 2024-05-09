@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,9 +9,9 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.Timer;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
@@ -44,11 +43,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     // verifies if the game has started
     public boolean running = false;
 
-    private JLabel gameOver;
-
     private ScorePanel scorePanel;
+    private JFrame container;
 
-    public GamePanel(ScorePanel scorePanel) {
+    public GamePanel(ScorePanel scorePanel, JFrame container) {
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.black);
 
@@ -58,6 +56,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         // focuses the keys pressed by the user on the game
         setFocusable(true);
         this.scorePanel = scorePanel;
+        this.container = container;
 
         // starts the game
         startGame();
@@ -84,11 +83,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     public void endGame() {
         running = false;
-        gameOver = new JLabel("Game over!");
-        gameOver.setFont(new Font("Arial", Font.BOLD, 100));
         setBackground(Color.red);
         JOptionPane.showMessageDialog(null, "gameOver");
-        new Menu();
+        container.dispose();
     }
 
     public void move() {

@@ -14,7 +14,6 @@ public class GameFrame {
         container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         container.setSize(600, 600);
         container.setLocationRelativeTo(null);
-        container.setVisible(true);
         container.setResizable(false);
 
         // score label
@@ -22,13 +21,14 @@ public class GameFrame {
         container.add(scorepanel, BorderLayout.SOUTH);
 
         // adds the game to the container
-        GamePanel panel = new GamePanel(scorepanel);
+        GamePanel panel = new GamePanel(scorepanel, container);
         container.add(panel, BorderLayout.CENTER);
         panel.requestFocus();
 
         // disconsiders the top bar
         container.pack();
-        
+
+        container.setVisible(panel.running);
     }
 
 }
