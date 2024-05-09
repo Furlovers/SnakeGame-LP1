@@ -1,21 +1,14 @@
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class GameFrame implements ActionListener {
+public class GameFrame {
 
-    private JButton startBtn;
 
     public GameFrame() {
 
         JFrame container = new JFrame("Snake Game");
-
-        startBtn = new JButton("Start Game");
-        startBtn.setBounds(10, 20, 30, 40);
 
         // container aspects
         container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,7 +16,6 @@ public class GameFrame implements ActionListener {
         container.setLocationRelativeTo(null);
         container.setVisible(true);
         container.setResizable(false);
-        container.add(startBtn, BorderLayout.SOUTH);
 
         // score label
         ScorePanel scorepanel = new ScorePanel();
@@ -36,17 +28,7 @@ public class GameFrame implements ActionListener {
 
         // disconsiders the top bar
         container.pack();
-
-        startBtn.addActionListener(this);
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource() == startBtn) {
-
-        }
+        
     }
 
 }

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import java.util.ArrayList;
 
 import javax.swing.Timer;
@@ -41,7 +42,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public int score;
 
     // verifies if the game has started
-    private boolean running = false;
+    public boolean running = false;
 
     private JLabel gameOver;
 
@@ -87,6 +88,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         gameOver.setFont(new Font("Arial", Font.BOLD, 100));
         setBackground(Color.red);
         JOptionPane.showMessageDialog(null, "gameOver");
+        new Menu();
     }
 
     public void move() {
