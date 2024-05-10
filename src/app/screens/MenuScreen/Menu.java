@@ -1,6 +1,9 @@
+package app.screens.MenuScreen;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
+
+import app.screens.GameScreen.GameFrame;
 
 public class Menu extends JFrame implements ActionListener {
     private JButton startBtn;
@@ -49,7 +52,8 @@ public class Menu extends JFrame implements ActionListener {
         buttonsPanel.setBackground(Color.BLACK);
 
         // snake image
-        ImageIcon icon = new ImageIcon(getClass().getResource("/images/snakeImage.jpg"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("./resources/snakeImage.jpg"));
+
         Image smallerImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); 
         ImageIcon smallerIcon = new ImageIcon(smallerImage);
         JLabel imageLabel = new JLabel(smallerIcon);

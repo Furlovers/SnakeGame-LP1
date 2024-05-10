@@ -1,3 +1,4 @@
+package app.screens.GameScreen.Panels;
 
 import java.awt.Color;
 import java.awt.Dimension;

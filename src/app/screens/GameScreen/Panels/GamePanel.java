@@ -1,3 +1,4 @@
+package app.screens.GameScreen.Panels;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -5,6 +6,9 @@ import java.awt.event.KeyListener;
 
 import java.awt.*;
 import javax.swing.*;
+
+import app.screens.GameScreen.components.RandomPoint;
+import app.screens.GameScreen.components.Tile;
 
 import java.util.ArrayList;
 

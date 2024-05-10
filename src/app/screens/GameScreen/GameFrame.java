@@ -1,7 +1,11 @@
+package app.screens.GameScreen;
 
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+
+import app.screens.GameScreen.Panels.GamePanel;
+import app.screens.GameScreen.Panels.ScorePanel;
 
 public class GameFrame {
 
@@ -28,7 +32,7 @@ public class GameFrame {
 
         // container aspects
         container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        container.setSize(600, 600);
+        container.setSize(width, height);
         container.setLocationRelativeTo(null);
         container.setResizable(false);
 

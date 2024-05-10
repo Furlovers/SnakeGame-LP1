@@ -1,3 +1,4 @@
+package app.screens.GameScreen.components;
 import java.util.Random;
 
 public class RandomPoint {

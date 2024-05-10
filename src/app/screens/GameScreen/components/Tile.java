@@ -1,3 +1,4 @@
+package app.screens.GameScreen.components;
 public class Tile {
     public int x;
     public int y;
