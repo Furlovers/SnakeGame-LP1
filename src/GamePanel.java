@@ -7,7 +7,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
@@ -26,9 +25,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     // Random Tile Generator
     private RandomPoint randomTile;
-    private Random random;
-    private int randomImgTileX;
-    private int randomImgTileY;
+    // private Random random;
+    // private int randomImgTileX;
+    // private int randomImgTileY;
 
     // Game Timer
     private Timer timer;
@@ -72,9 +71,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         randomTile = new RandomPoint(width, height, tile_size);
 
         // random obstacle mode
-        random = new Random();
-        randomImgTileX = random.nextInt(width/tile_size);
-        randomImgTileY = random.nextInt(height/tile_size);
+        // random = new Random();
+        // randomImgTileX = random.nextInt(width/tile_size);
+        // randomImgTileY = random.nextInt(height/tile_size);
 
         // sets the time in which the screen is redrawn (100 ms)
         timer = new Timer(delay, this);
@@ -104,8 +103,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             scorePanel.setText();
             snakeBody.add(new Tile(apple.x, apple.y));
             apple = randomTile.RandomTile();
-            randomImgTileX = random.nextInt(width/tile_size);
-            randomImgTileY = random.nextInt(height/tile_size);
+            // randomImgTileX = random.nextInt(width/tile_size);
+            // randomImgTileY = random.nextInt(height/tile_size);
         }
 
         // moves the snake body
