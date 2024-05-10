@@ -6,6 +6,8 @@ public class RandomPoint {
     int width;
     int height;
     int tile_size;
+    int x;
+    int y;
 
     public RandomPoint(int width, int height, int tile_size) {
         this.width = width;
@@ -16,8 +18,16 @@ public class RandomPoint {
     public Tile RandomTile() {
         random = new Random();
         tile = new Tile(random.nextInt(width / tile_size), random.nextInt(height / tile_size));
-
+        this.x = tile.x;
+        this.y = tile.y;
         return tile;
+    }
+
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
     }
     
 }

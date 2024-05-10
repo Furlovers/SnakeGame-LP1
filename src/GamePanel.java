@@ -1,24 +1,21 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import java.util.ArrayList;
+import java.awt.*;
+import javax.swing.*;
 
-import javax.swing.Timer;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
-    // Setting the size of the tiles
+    // Setting the size of the tiles and delay
     private int tile_size = 25;
-    private int height = 600;
-    private int width = 600;
+    private int height;
+    private int width;
+    private int delay;
 
     // Creating the snake
     private Tile snake;
@@ -29,6 +26,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     // Random Tile Generator
     private RandomPoint randomTile;
+    private Random random;
+    private int randomImgTileX;
+    private int randomImgTileY;
 
     // Game Timer
     private Timer timer;
@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private ScorePanel scorePanel;
     private JFrame container;
 
-    public GamePanel(ScorePanel scorePanel, JFrame container) {
+    public GamePanel(ScorePanel scorePanel, JFrame container, int height, int width, int delay) {
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.black);
 
@@ -58,6 +58,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         this.scorePanel = scorePanel;
         this.container = container;
 
+        // sets the panel
+        this.height = height;
+        this.width = width;
+        this.delay = delay;
+
         // starts the game
         startGame();
     }
@@ -66,8 +71,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         running = true;
         randomTile = new RandomPoint(width, height, tile_size);
 
+        // random obstacle mode
+        random = new Random();
+        randomImgTileX = random.nextInt(width/tile_size);
+        randomImgTileY = random.nextInt(height/tile_size);
+
         // sets the time in which the screen is redrawn (100 ms)
-        timer = new Timer(100, this);
+        timer = new Timer(delay, this);
         timer.start();
 
         // placing the snake and the apple
@@ -85,7 +95,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         running = false;
         setBackground(Color.red);
         JOptionPane.showMessageDialog(null, "gameOver");
-        
         container.dispose();
     }
 
@@ -95,6 +104,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             scorePanel.setText();
             snakeBody.add(new Tile(apple.x, apple.y));
             apple = randomTile.RandomTile();
+            randomImgTileX = random.nextInt(width/tile_size);
+            randomImgTileY = random.nextInt(height/tile_size);
         }
 
         // moves the snake body
@@ -125,6 +136,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 || snake.y * tile_size >= height) {
             endGame();
         }
+
+        // random obstacle mode
+        // if (snake.x == randomImgTileX && snake.y == randomImgTileY) {
+        //     endGame();
+        // }
 
     }
 
@@ -160,6 +176,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.green);
         g.fillRoundRect(apple.x * tile_size + tile_size / 2, apple.y * tile_size, tile_size / 4, tile_size / 4,
                 tile_size, tile_size);
+
+        // Surprise Image
+        // ImageIcon icon = new ImageIcon(getClass().getResource("/images/calvettiImage.jpeg"));
+        // Image smallerImage = icon.getImage().getScaledInstance(tile_size, tile_size, Image.SCALE_SMOOTH); 
+        // ImageIcon smallerIcon = new ImageIcon(smallerImage);
+        // smallerIcon.paintIcon(container, g, randomImgTileX*tile_size, randomImgTileY*tile_size);
     }
 
     @Override

@@ -7,6 +7,7 @@ public class Menu extends JFrame implements ActionListener {
     private JButton quitBtn;
     private JLabel title;
     public int highScore = 0;
+    private int level = 0;
 
     public Menu() {
         super("Snake Game");
@@ -49,9 +50,11 @@ public class Menu extends JFrame implements ActionListener {
 
         // snake image
         ImageIcon icon = new ImageIcon(getClass().getResource("/images/snakeImage.jpg"));
-        Image smallerImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); // Change size as needed
+        Image smallerImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); 
         ImageIcon smallerIcon = new ImageIcon(smallerImage);
         JLabel imageLabel = new JLabel(smallerIcon);
+
+        System.out.println(level);
 
         container.add(title);
         container.add(imageLabel);
@@ -64,8 +67,9 @@ public class Menu extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        level++;
         if (e.getSource() == startBtn) {
-            new GameFrame();
+            new GameFrame(level);
         }
         else if (e.getSource() == quitBtn) {
             System.exit(0);
