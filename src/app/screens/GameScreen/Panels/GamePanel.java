@@ -1,12 +1,15 @@
 package app.screens.GameScreen.Panels;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import java.awt.*;
+
 import javax.swing.*;
 
+import app.screens.GameOverScreen.GameOverFrame;
 import app.screens.GameScreen.components.RandomPoint;
 import app.screens.GameScreen.components.Tile;
 
@@ -43,15 +46,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     // Player Score
     public int score;
 
-    // verifies if the game has started
+    // verifies if the game has started and ended
     public boolean running = false;
+    public boolean gameOver = false;
+
+    // buttons panel (game over screen)
+    private JButton restartButton;
+    private JPanel buttonsPanel;
+    private JButton backMenu;
 
     private ScorePanel scorePanel;
-    private JFrame container;
+    private JFrame gameFrame;
+
 
     public GamePanel(ScorePanel scorePanel, JFrame container, int height, int width, int delay) {
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.black);
+        this.gameFrame = container;
 
         // listen to keys pressed by the user
         addKeyListener(this);
@@ -59,29 +70,55 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         // focuses the keys pressed by the user on the game
         setFocusable(true);
         this.scorePanel = scorePanel;
-        this.container = container;
 
         // sets the panel
         this.height = height;
         this.width = width;
         this.delay = delay;
 
+        // restart button
+        restartButton = new JButton("Restart");
+        restartButton.setBackground(Color.green);
+        restartButton.setPreferredSize(new Dimension(100, 50));
+        restartButton.addActionListener(this);
+        restartButton.setBorderPainted(false);
+        restartButton.setFocusPainted(false);
+
+        // back to menu button
+        backMenu = new JButton("Menu");
+        backMenu.setBackground(Color.green);
+        backMenu.setPreferredSize(new Dimension(100, 50));
+        backMenu.addActionListener(this);
+        backMenu.setBorderPainted(false);
+        backMenu.setFocusPainted(false);
+
+        // buttons panel (game over screen)
+        buttonsPanel = new JPanel();
+        buttonsPanel.setBackground(Color.black);
+        buttonsPanel.setLocation(400, 400);
+
+        // adds the buttons to the buttons panel
+        buttonsPanel.add(restartButton);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        buttonsPanel.add(backMenu);
+        add(buttonsPanel);
+
+        // sets the time in which the screen is redrawn (100 ms)
+        timer = new Timer(this.delay, this);
+        timer.start();
+
         // starts the game
         startGame();
     }
 
     public void startGame() {
+
+        // resets the game
+        gameOver = false;
+        buttonsPanel.setVisible(false);
         running = true;
         randomTile = new RandomPoint(width, height, tile_size);
-
-        // random obstacle mode
-        // random = new Random();
-        // randomImgTileX = random.nextInt(width/tile_size);
-        // randomImgTileY = random.nextInt(height/tile_size);
-
-        // sets the time in which the screen is redrawn (100 ms)
-        timer = new Timer(delay, this);
-        timer.start();
+        score = 0;
 
         // placing the snake and the apple
         snakeBody = new ArrayList<Tile>();
@@ -92,58 +129,59 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         velocityX = 0;
         velocityY = 0;
 
-    }
+        // random obstacle mode
+        // random = new Random();
+        // randomImgTileX = random.nextInt(width/tile_size);
+        // randomImgTileY = random.nextInt(height/tile_size);
 
-    public void endGame() {
-        running = false;
-        setBackground(Color.red);
-        JOptionPane.showMessageDialog(null, "gameOver");
-        container.dispose();
     }
 
     public void move() {
-        // Increases the snake size
-        if (isSameTile(snake, apple)) {
-            scorePanel.setText();
-            snakeBody.add(new Tile(apple.x, apple.y));
-            apple = randomTile.RandomTile();
-            // randomImgTileX = random.nextInt(width/tile_size);
-            // randomImgTileY = random.nextInt(height/tile_size);
-        }
-
-        // moves the snake body
-        for (int i = snakeBody.size() - 1; i >= 0; i--) {
-            Tile snakeTile = snakeBody.get(i);
-            if (i == 0) {
-                snakeTile.x = snake.x;
-                snakeTile.y = snake.y;
-            } else {
-                Tile previousnakeTile = snakeBody.get(i - 1);
-                snakeTile.x = previousnakeTile.x;
-                snakeTile.y = previousnakeTile.y;
+        if (!gameOver && running) {
+            // Increases the snake size
+            if (isSameTile(snake, apple)) {
+                score++;
+                scorePanel.updateScore(score);
+                snakeBody.add(new Tile(apple.x, apple.y));
+                apple = randomTile.RandomTile();
+                // randomImgTileX = random.nextInt(width/tile_size);
+                // randomImgTileY = random.nextInt(height/tile_size);
             }
-        }
 
-        // moves the snake head
-        snake.x += velocityX;
-        snake.y += velocityY;
-
-        // endGame conditions
-        for (Tile tile : snakeBody) {
-            if (isSameTile(snake, tile)) {
-                endGame();
+            // moves the snake body
+            for (int i = snakeBody.size() - 1; i >= 0; i--) {
+                Tile snakeTile = snakeBody.get(i);
+                if (i == 0) {
+                    snakeTile.x = snake.x;
+                    snakeTile.y = snake.y;
+                } else {
+                    Tile previousnakeTile = snakeBody.get(i - 1);
+                    snakeTile.x = previousnakeTile.x;
+                    snakeTile.y = previousnakeTile.y;
+                }
             }
-        }
 
-        if (snake.x * tile_size < 0 || snake.x * tile_size >= width || snake.y * tile_size < 0
-                || snake.y * tile_size >= height) {
-            endGame();
-        }
+            // moves the snake head
+            snake.x += velocityX;
+            snake.y += velocityY;
 
-        // random obstacle mode
-        // if (snake.x == randomImgTileX && snake.y == randomImgTileY) {
-        //     endGame();
-        // }
+            // endGame conditions
+            for (Tile tile : snakeBody) {
+                if (isSameTile(snake, tile)) {
+                    gameOver = true;
+                }
+            }
+
+            if (snake.x * tile_size < 0 || snake.x * tile_size >= width || snake.y * tile_size < 0
+                    || snake.y * tile_size >= height) {
+                gameOver = true;
+            }
+
+            // random obstacle mode
+            // if (snake.x == randomImgTileX && snake.y == randomImgTileY) {
+            // endGame();
+            // }
+        }
 
     }
 
@@ -157,44 +195,67 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     public void draw(Graphics g) {
-        // Grid
-        for (int i = 0; i < width / tile_size; i++) {
-            g.drawLine(i * tile_size, 0, i * tile_size, height);
-            g.drawLine(0, i * tile_size, width, i * tile_size);
+
+        if (!gameOver) {
+
+            // Grid
+            for (int i = 0; i < width / tile_size; i++) {
+                g.drawLine(i * tile_size, 0, i * tile_size, height);
+                g.drawLine(0, i * tile_size, width, i * tile_size);
+            }
+
+            // Drawing the Snake Head
+            g.setColor(Color.green);
+            g.fillRect(snake.x * tile_size, snake.y * tile_size, tile_size, tile_size);
+
+            // Drawing the Snake Body
+            g.setColor(Color.green);
+            for (Tile tile : snakeBody) {
+                g.fillRect(tile.x * tile_size, tile.y * tile_size, tile_size, tile_size);
+            }
+
+            // Drawing the Apple
+            g.setColor(Color.red);
+            g.fillRoundRect(apple.x * tile_size, apple.y * tile_size, tile_size, tile_size, tile_size, tile_size);
+            g.setColor(Color.green);
+            g.fillRoundRect(apple.x * tile_size + tile_size / 2, apple.y * tile_size, tile_size / 4, tile_size / 4,
+                    tile_size, tile_size);
+
+            // Surprise Image
+            // ImageIcon icon = new
+            // ImageIcon(getClass().getResource("/images/calvettiImage.jpeg"));
+            // Image smallerImage = icon.getImage().getScaledInstance(tile_size, tile_size,
+            // Image.SCALE_SMOOTH);
+            // ImageIcon smallerIcon = new ImageIcon(smallerImage);
+            // smallerIcon.paintIcon(container, g, randomImgTileX*tile_size,
+            // randomImgTileY*tile_size);
+
+        } else {
+            restartButton.setVisible(true);
+            buttonsPanel.setVisible(true);
+            new GameOverFrame(this, g);
         }
 
-        // Drawing the Snake Head
-        g.setColor(Color.green);
-        g.fillRect(snake.x * tile_size, snake.y * tile_size, tile_size, tile_size);
+    }
 
-        // Drawing the Snake Body
-        g.setColor(Color.green);
-        for (Tile tile : snakeBody) {
-            g.fillRect(tile.x * tile_size, tile.y * tile_size, tile_size, tile_size);
-        }
-
-        // Drawing the Apple
-        g.setColor(Color.red);
-        g.fillRoundRect(apple.x * tile_size, apple.y * tile_size, tile_size, tile_size, tile_size, tile_size);
-        g.setColor(Color.green);
-        g.fillRoundRect(apple.x * tile_size + tile_size / 2, apple.y * tile_size, tile_size / 4, tile_size / 4,
-                tile_size, tile_size);
-
-        // Surprise Image
-        // ImageIcon icon = new ImageIcon(getClass().getResource("/images/calvettiImage.jpeg"));
-        // Image smallerImage = icon.getImage().getScaledInstance(tile_size, tile_size, Image.SCALE_SMOOTH); 
-        // ImageIcon smallerIcon = new ImageIcon(smallerImage);
-        // smallerIcon.paintIcon(container, g, randomImgTileX*tile_size, randomImgTileY*tile_size);
+    public void restartGame() {
+        gameOver = false;
+        startGame();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (running) {
-            // Move the snake
-            move();
-            // ReRender the screen (redraw)
-            repaint();
+        // Move the snake
+        move();
+        // ReRender the screen (redraw)
+        repaint();
 
+        if (e.getSource() == restartButton) {
+            restartButton.setVisible(false);
+            startGame();
+        }
+        if (e.getSource() == backMenu) {
+            gameFrame.dispose();
         }
 
     }
@@ -214,6 +275,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT && velocityX != -1) {
             velocityX = 1;
             velocityY = 0;
+        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            running = !running;
         }
     }
 

@@ -5,18 +5,19 @@ import javax.swing.*;
 
 import app.screens.GameScreen.GameFrame;
 
-public class Menu extends JFrame implements ActionListener {
+public class MenuFrame extends JFrame implements ActionListener {
     private JButton startBtn;
     private JButton quitBtn;
     private JLabel title;
     public int highScore = 0;
     private int level = 0;
+    private JFrame container;
 
-    public Menu() {
+    public MenuFrame() {
         super("Snake Game");
         
-        
-        JFrame container = new JFrame();
+        // Menu container
+        container = new JFrame();
         container.setLayout(new GridLayout(3, 1));
         container.setSize(500, 400);
         container.setLocationRelativeTo(null);
@@ -52,7 +53,7 @@ public class Menu extends JFrame implements ActionListener {
         buttonsPanel.setBackground(Color.BLACK);
 
         // snake image
-        ImageIcon icon = new ImageIcon(getClass().getResource("./resources/snakeImage.jpg"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("./assets/snakeImage.jpg"));
 
         Image smallerImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); 
         ImageIcon smallerIcon = new ImageIcon(smallerImage);

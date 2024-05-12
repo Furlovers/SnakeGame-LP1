@@ -12,23 +12,17 @@ public class GameFrame {
     private int height;
     private int width;
     private int delay;
+    private int highScore = 0;
+
+    private GamePanel gamePanel;
 
     public GameFrame(int level) {
 
         JFrame container = new JFrame("Snake Game");
 
-        if (level < 5) {
-            height = 600;
-            width = 600;
-            delay = 100/level;
-        }
-        else {
-            height = 600/level;
-            width = 600/level;
-            delay = 100;
-        }
-
-        System.out.println(level);
+        height = 600;
+        width = 600;
+        delay = 100;
 
         // container aspects
         container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,18 +31,28 @@ public class GameFrame {
         container.setResizable(false);
 
         // score label
-        ScorePanel scorepanel = new ScorePanel(level);
-        container.add(scorepanel, BorderLayout.SOUTH);
+        ScorePanel scorePanel = new ScorePanel(level);
+        container.add(scorePanel, BorderLayout.SOUTH);
 
         // adds the game to the container
-        GamePanel panel = new GamePanel(scorepanel, container, height, width, delay / level);
-        container.add(panel, BorderLayout.CENTER);
-        panel.requestFocus();
+        gamePanel = new GamePanel(scorePanel, container, height, width, delay);
+        container.add(gamePanel, BorderLayout.CENTER);
+        gamePanel.requestFocus();
 
         // disconsiders the top bar
         container.pack();
 
-        container.setVisible(panel.running);
+        container.setVisible(true);
+    }
+
+    public void setHighScore() {
+        if(this.highScore < gamePanel.score) {
+            this.highScore = gamePanel.score;
+        }
+    }
+
+    public int getHighScore() {
+        return this.highScore;
     }
 
 }
