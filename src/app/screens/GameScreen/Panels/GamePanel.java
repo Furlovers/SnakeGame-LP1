@@ -81,18 +81,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         // restart button
         restartButton = new JButton("Restart");
         restartButton.setBackground(Color.green);
-        restartButton.setPreferredSize(new Dimension(100, 50));
+        restartButton.setPreferredSize(new Dimension(150, 50));
         restartButton.addActionListener(this);
         restartButton.setBorderPainted(false);
         restartButton.setFocusPainted(false);
+        restartButton.setFont(new Font("Arial", Font.BOLD, 25));
 
         // back to menu button
         backMenu = new JButton("Menu");
         backMenu.setBackground(Color.green);
-        backMenu.setPreferredSize(new Dimension(100, 50));
+        backMenu.setPreferredSize(new Dimension(150, 50));
         backMenu.addActionListener(this);
         backMenu.setBorderPainted(false);
         backMenu.setFocusPainted(false);
+        backMenu.setFont(new Font("Arial", Font.BOLD, 25));
 
         // buttons panel (game over screen)
         buttonsPanel = new JPanel();
