@@ -1,4 +1,5 @@
 package app.screens.MenuScreen;
+
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class MenuFrame extends JFrame implements ActionListener {
 
     public MenuFrame() {
         super("Snake Game");
-        
+
         // Menu container
         container = new JFrame();
         container.setLayout(new GridLayout(3, 1));
@@ -51,21 +52,17 @@ public class MenuFrame extends JFrame implements ActionListener {
         buttonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         buttonsPanel.add(quitBtn);
         buttonsPanel.setBackground(Color.BLACK);
+        buttonsPanel.setSize(400, 400);
 
         // snake image
         ImageIcon icon = new ImageIcon(getClass().getResource("./assets/snakeImage.jpg"));
-
-        Image smallerImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); 
+        Image smallerImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         ImageIcon smallerIcon = new ImageIcon(smallerImage);
         JLabel imageLabel = new JLabel(smallerIcon);
-
-        System.out.println(level);
 
         container.add(title);
         container.add(imageLabel);
         container.add(buttonsPanel);
-
-        buttonsPanel.setSize(400, 400);
 
         container.setVisible(true);
     }
@@ -75,8 +72,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         level++;
         if (e.getSource() == startBtn) {
             new GameFrame(level);
-        }
-        else if (e.getSource() == quitBtn) {
+        } else if (e.getSource() == quitBtn) {
             System.exit(0);
         }
     }

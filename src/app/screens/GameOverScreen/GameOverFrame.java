@@ -10,17 +10,16 @@ import app.screens.GameScreen.Panels.GamePanel;
 
 public class GameOverFrame implements ActionListener {
     private GamePanel gamePanel;
-    private int highScore;
     private int score;
+    private int highScore;
 
     public GameOverFrame(GamePanel gamePanel, Graphics g) {
         
         this.gamePanel = gamePanel;
         this.score = gamePanel.score;
+        highScore = score;
         
-        if(score > highScore) {
-            highScore = score;
-        }
+        
         draw(g);
     }
 
@@ -45,7 +44,7 @@ public class GameOverFrame implements ActionListener {
         g.drawString(scoreString, (gamePanel.getWidth() - g.getFontMetrics().stringWidth(scoreString)) / 2, gamePanel.getHeight() / 2 - 50);
 
         // High score string
-        String highScoreString = "High Score: " + this.highScore;
+        String highScoreString = "High Score: " + highScore;
         g.drawString(highScoreString, (gamePanel.getWidth() - g.getFontMetrics().stringWidth(highScoreString)) / 2, gamePanel.getHeight() / 2);
 
     }

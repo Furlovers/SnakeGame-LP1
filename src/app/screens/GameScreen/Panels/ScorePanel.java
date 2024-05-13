@@ -23,7 +23,7 @@ public class ScorePanel extends JPanel {
         levLabel.setFont(new Font("Arial", Font.BOLD, 20));
 
         add(scoreLabel);
-        setBackground(Color.WHITE);
+        setBackground(Color.white);
         
         add(Box.createRigidArea(new Dimension(20, 0)));
         add(levLabel);

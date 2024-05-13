@@ -58,11 +58,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private ScorePanel scorePanel;
     private JFrame gameFrame;
 
-
     public GamePanel(ScorePanel scorePanel, JFrame container, int height, int width, int delay) {
+
+        // configures the Game Panel
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.black);
-        this.gameFrame = container;
+        setLayout(new BorderLayout());
 
         // listen to keys pressed by the user
         addKeyListener(this);
@@ -71,10 +72,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         this.scorePanel = scorePanel;
 
-        // sets the panel
+        // sets the panel properties 
         this.height = height;
         this.width = width;
         this.delay = delay;
+        this.gameFrame = container;
 
         // restart button
         restartButton = new JButton("Restart");
@@ -95,13 +97,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         // buttons panel (game over screen)
         buttonsPanel = new JPanel();
         buttonsPanel.setBackground(Color.black);
-        buttonsPanel.setLocation(400, 400);
+        buttonsPanel.setPreferredSize(new Dimension(200, 280));
+        buttonsPanel.setLayout(new FlowLayout());
 
         // adds the buttons to the buttons panel
         buttonsPanel.add(restartButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         buttonsPanel.add(backMenu);
-        add(buttonsPanel);
+
+        
+        add(buttonsPanel, BorderLayout.SOUTH);
 
         // sets the time in which the screen is redrawn (100 ms)
         timer = new Timer(this.delay, this);
@@ -118,6 +123,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         buttonsPanel.setVisible(false);
         running = true;
         randomTile = new RandomPoint(width, height, tile_size);
+        scorePanel.setVisible(true);
         score = 0;
 
         // placing the snake and the apple
@@ -233,6 +239,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         } else {
             restartButton.setVisible(true);
             buttonsPanel.setVisible(true);
+            scorePanel.setVisible(false);
             new GameOverFrame(this, g);
         }
 
@@ -251,6 +258,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         repaint();
 
         if (e.getSource() == restartButton) {
+            scorePanel.updateScore(0);
             restartButton.setVisible(false);
             startGame();
         }

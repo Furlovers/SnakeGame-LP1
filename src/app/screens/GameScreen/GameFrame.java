@@ -12,7 +12,6 @@ public class GameFrame {
     private int height;
     private int width;
     private int delay;
-    private int highScore = 0;
 
     private GamePanel gamePanel;
 
@@ -43,16 +42,6 @@ public class GameFrame {
         container.pack();
 
         container.setVisible(true);
-    }
-
-    public void setHighScore() {
-        if(this.highScore < gamePanel.score) {
-            this.highScore = gamePanel.score;
-        }
-    }
-
-    public int getHighScore() {
-        return this.highScore;
     }
 
 }
