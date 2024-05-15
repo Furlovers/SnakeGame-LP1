@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import app.screens.GameScreen.Panels.GamePanel;
+import app.screens.db.HighScoreManager;
 
 public class GameOverFrame implements ActionListener {
     private GamePanel gamePanel;
@@ -17,8 +18,8 @@ public class GameOverFrame implements ActionListener {
         
         this.gamePanel = gamePanel;
         this.score = gamePanel.score;
-        highScore = score;
-        
+        HighScoreManager.updateHighScore(score);
+        this.highScore = HighScoreManager.getHighScore();
         
         draw(g);
     }
