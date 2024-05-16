@@ -12,6 +12,7 @@ import javax.swing.*;
 import app.screens.GameOverScreen.GameOverFrame;
 import app.screens.GameScreen.components.RandomPoint;
 import app.screens.GameScreen.components.Tile;
+import app.screens.db.LevelManager;
 
 import java.util.ArrayList;
 
@@ -55,8 +56,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private JPanel buttonsPanel;
     private JButton backMenu;
 
+    // Level
+    private int level;
+
+    // other classes
     private ScorePanel scorePanel;
     private JFrame gameFrame;
+    private LevelManager levelManager = new LevelManager();
 
     public GamePanel(ScorePanel scorePanel, JFrame container, int height, int width, int delay) {
 
@@ -114,6 +120,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         timer = new Timer(this.delay, this);
         timer.start();
 
+        // inicial level
+        level = 1;
+
         // starts the game
         startGame();
     }
@@ -127,6 +136,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         randomTile = new RandomPoint(width, height, tile_size);
         scorePanel.setVisible(true);
         score = 0;
+
+        // resets the timer accordingly to the level
+        this.delay = levelManager.getDelay(level);
+        System.out.println(this.delay);
+        timer.setDelay(delay);
 
         // placing the snake and the apple
         snakeBody = new ArrayList<Tile>();
@@ -177,12 +191,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             for (Tile tile : snakeBody) {
                 if (isSameTile(snake, tile)) {
                     gameOver = true;
+                    if(this.score >= levelManager.getMinScore(this.level)){
+                        this.level++;
+                        restartButton.setText("Level " + this.level);
+                        scorePanel.updateMinScore(this.level);
+                    } else {
+                        restartButton.setText("Restart");
+                    }
                 }
             }
 
             if (snake.x * tile_size < 0 || snake.x * tile_size >= width || snake.y * tile_size < 0
                     || snake.y * tile_size >= height) {
                 gameOver = true;
+                if(this.score >= levelManager.getMinScore(this.level)){
+                    this.level++;
+                    restartButton.setText("Level " + this.level);
+                    System.out.println(this.level);
+                    scorePanel.updateMinScore(this.level);
+                } else {
+                    restartButton.setText("Restart");
+                }
             }
 
             // random obstacle mode
@@ -239,9 +268,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             // randomImgTileY*tile_size);
 
         } else {
+            // game over screen buttons
             restartButton.setVisible(true);
             buttonsPanel.setVisible(true);
+
+            //  hides the score panel
             scorePanel.setVisible(false);
+
+            
+            scorePanel.updateLevel(this.level);
             new GameOverFrame(this, g);
         }
 
@@ -298,5 +333,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
     }
-
 }
+
+
