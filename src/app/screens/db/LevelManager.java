@@ -16,10 +16,10 @@ public class LevelManager {
         delay.put(3, 60);
         delay.put(4, 40);
 
-        minScore.put(1, 30);
-        minScore.put(2, 20);
-        minScore.put(3, 15);
-        minScore.put(4, 10);
+        minScore.put(1, 6);
+        minScore.put(2, 5);
+        minScore.put(3, 4);
+        minScore.put(4, 3);
     }
 
     public int getDelay(int level) {

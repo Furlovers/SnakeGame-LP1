@@ -206,9 +206,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 gameOver = true;
                 if(this.score >= levelManager.getMinScore(this.level)){
                     this.level++;
-                    restartButton.setText("Level " + this.level);
+                    if(this.level <= 4) {
+                        restartButton.setText("Level " + this.level);
+                        scorePanel.updateMinScore(this.level);
+                    } else {
+                        restartButton.setText("Restart");
+                    } 
                     System.out.println(this.level);
-                    scorePanel.updateMinScore(this.level);
                 } else {
                     restartButton.setText("Restart");
                 }
@@ -332,6 +336,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+
+    // function to get the current level
+    public int getLevel() {
+        return this.level;
     }
 }
 
