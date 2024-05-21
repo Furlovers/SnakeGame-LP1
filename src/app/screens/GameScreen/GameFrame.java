@@ -15,7 +15,7 @@ public class GameFrame {
 
     private GamePanel gamePanel;
 
-    public GameFrame(int level) {
+    public GameFrame(int level, String name) {
 
         JFrame container = new JFrame("Snake Game");
 
@@ -30,8 +30,8 @@ public class GameFrame {
         container.setResizable(false);
 
         // score label
-        ScorePanel scorePanel = new ScorePanel(level);
-        container.add(scorePanel, BorderLayout.SOUTH);
+        ScorePanel scorePanel = new ScorePanel(level, name);
+        container.add(scorePanel, BorderLayout.EAST);
 
         // adds the game to the container
         gamePanel = new GamePanel(scorePanel, container, height, width, delay);
