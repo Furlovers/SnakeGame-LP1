@@ -3,13 +3,16 @@ package app.screens.GameScreen.Panels;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.sql.Connection;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import app.screens.db.ConnFactory;
 import app.screens.db.LevelManager;
+import app.screens.db.User;
 
 public class ScorePanel extends JPanel {
 
@@ -19,12 +22,15 @@ public class ScorePanel extends JPanel {
     private JLabel levLabel;
     private JLabel minScorLabel;
     private JLabel playerNameLabel;
+    private JLabel personalHighScore;
+    private JLabel highScoreLabel;
 
     private int level = 1;
+    private Connection conn = null;
 
     private LevelManager levelManager = new LevelManager();
 
-    public ScorePanel(int level, String name) {
+    public ScorePanel(int level, User user) {
 
         setBackground(Color.black);
         setPreferredSize(new Dimension(300, 600));
@@ -32,7 +38,7 @@ public class ScorePanel extends JPanel {
         setBackground(Color.black);
 
         // Label with the player name
-        playerNameLabel = new JLabel("Player: " + name);
+        playerNameLabel = new JLabel("Player: " + user.getName());
         playerNameLabel.setFont(new Font("Arial", Font.BOLD, 20));
         playerNameLabel.setAlignmentX(CENTER_ALIGNMENT);
         playerNameLabel.setForeground(Color.green);
@@ -55,6 +61,24 @@ public class ScorePanel extends JPanel {
         minScorLabel.setAlignmentX(CENTER_ALIGNMENT);
         minScorLabel.setForeground(Color.green);
 
+        // Label with the personal high score
+        personalHighScore = new JLabel("Personal High Score: " + user.getHighScore());
+        personalHighScore.setFont(new Font("Arial", Font.BOLD, 20));
+        personalHighScore.setAlignmentX(CENTER_ALIGNMENT);
+        personalHighScore.setForeground(Color.green);
+
+        // Label with the total high score
+        try {
+            ConnFactory bd = new ConnFactory();
+            conn = bd.getConnection();
+            highScoreLabel = new JLabel("Total High Score: " + User.getMaxHighScore(conn));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        highScoreLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        highScoreLabel.setAlignmentX(CENTER_ALIGNMENT);
+        highScoreLabel.setForeground(Color.green);
+
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(playerNameLabel);
 
@@ -67,6 +91,12 @@ public class ScorePanel extends JPanel {
 
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(minScorLabel);
+
+        add(Box.createRigidArea(new Dimension(0, 20)));
+        add(personalHighScore);
+
+        add(Box.createRigidArea(new Dimension(0, 20)));
+        add(highScoreLabel);
 
     }
 
@@ -86,5 +116,9 @@ public class ScorePanel extends JPanel {
 
     public void updateMinScore(int level) {
         minScorLabel.setText("Minimum Score: " + levelManager.getMinScore(level));
+    }
+
+    public void updatePersonalHighScore(int highScore) {
+        personalHighScore.setText("Personal High Score: " + highScore);
     }
 }

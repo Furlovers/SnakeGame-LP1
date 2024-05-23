@@ -105,10 +105,12 @@ public class MenuFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         level++;
         if (e.getSource() == startBtn) {
+            // gets the user name
             name = nameTextField.getText();
             if (name.equals("")) {
                 name = "Unnamed Player";
             }
+            // creates the game frame
             new GameFrame(level, name);
         } else if (e.getSource() == quitBtn) {
             System.exit(0);

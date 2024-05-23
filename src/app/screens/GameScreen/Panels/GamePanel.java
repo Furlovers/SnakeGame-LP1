@@ -13,6 +13,7 @@ import app.screens.GameOverScreen.GameOverFrame;
 import app.screens.GameScreen.components.RandomPoint;
 import app.screens.GameScreen.components.Tile;
 import app.screens.db.LevelManager;
+import app.screens.db.User;
 
 import java.util.ArrayList;
 
@@ -59,17 +60,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     // Level
     private int level;
 
-    // other classes
+    // other panels
     private ScorePanel scorePanel;
     private JFrame gameFrame;
     private LevelManager levelManager = new LevelManager();
 
-    public GamePanel(ScorePanel scorePanel, JFrame container, int height, int width, int delay) {
+    // user
+    private User user;
+
+    public GamePanel(ScorePanel scorePanel, JFrame container, int height, int width, int delay, User user) {
 
         // configures the Game Panel
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.black);
         setLayout(new BorderLayout());
+        
 
         // listen to keys pressed by the user
         addKeyListener(this);
@@ -83,6 +88,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         this.width = width;
         this.delay = delay;
         this.gameFrame = container;
+        this.user = user;
 
         // restart button
         restartButton = new JButton("Restart");
@@ -136,6 +142,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         randomTile = new RandomPoint(width, height, tile_size);
         scorePanel.setVisible(true);
         score = 0;
+        scorePanel.updatePersonalHighScore(user.getHighScore());
 
         // resets the timer accordingly to the level
         this.delay = levelManager.getDelay(level);
@@ -187,7 +194,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             snake.x += velocityX;
             snake.y += velocityY;
 
-            // endGame conditions
+            // game over conditions
             for (Tile tile : snakeBody) {
                 if (isSameTile(snake, tile)) {
                     gameOver = true;
@@ -341,6 +348,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     // function to get the current level
     public int getLevel() {
         return this.level;
+    }
+
+    public User getUser() {
+        return this.user;
     }
 }
 

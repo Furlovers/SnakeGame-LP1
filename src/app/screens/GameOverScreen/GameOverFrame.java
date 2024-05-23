@@ -5,21 +5,25 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import app.screens.GameScreen.Panels.GamePanel;
-import app.screens.db.HighScoreManager;
+import app.screens.db.ConnFactory;
 
 public class GameOverFrame implements ActionListener {
     private GamePanel gamePanel;
     private int score;
     private int highScore;
 
+    private Connection conn = null;
+
     public GameOverFrame(GamePanel gamePanel, Graphics g) {
 
         this.gamePanel = gamePanel;
         this.score = gamePanel.score;
-        HighScoreManager.updateHighScore(score);
-        this.highScore = HighScoreManager.getHighScore();
+        gamePanel.getUser().setHighScore(score);
+        this.highScore = gamePanel.getUser().getHighScore();
 
         draw(g);
     }
@@ -59,10 +63,26 @@ public class GameOverFrame implements ActionListener {
         g.drawString(highScoreString, (gamePanel.getWidth() - g.getFontMetrics().stringWidth(highScoreString)) / 2,
                 gamePanel.getHeight() / 2);
 
+        try {
+            ConnFactory bd = new ConnFactory();
+            conn = bd.getConnection();
+
+            gamePanel.getUser().updateUser(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    System.out.println(e1.getStackTrace());
+                }
+            }
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
     }
+
 }
