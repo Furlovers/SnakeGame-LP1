@@ -28,6 +28,8 @@ public class ConnFactory {
         
         // Create the database if it does not exist
         createDatabaseIfNotExists(conn, database);
+
+        createTableIfNotExists(conn);
         
         // Close the initial connection
         conn.close();
@@ -40,6 +42,17 @@ public class ConnFactory {
         
         try (Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sqlCreateDB);
+        }
+    }
+
+    private static void createTableIfNotExists(Connection conn) throws SQLException {
+        String sqlCreateTable = "CREATE TABLE IF NOT EXISTS User ("
+                                + "name VARCHAR(255) NOT NULL, "
+                                + "highScore INT NOT NULL, "
+                                + "PRIMARY KEY (name))";
+        
+        try (Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sqlCreateTable);
         }
     }
 
