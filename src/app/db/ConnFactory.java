@@ -19,7 +19,7 @@ public class ConnFactory {
     public static Connection getConnection() throws SQLException {
         String servidor = "localhost";
         String porta = "3306";
-        String database = "TUTORIAL";
+        String database = "PROJETOLP";
         String usuario = "rodrigo";
         String senha =  "admin";
 
@@ -35,9 +35,6 @@ public class ConnFactory {
         // Create the table if it does not exist
         createTableIfNotExists(conn);
 
-        // Add the first user in the table
-        addFirstUserInTable(conn);
-        
         // Close the initial connection
         conn.close();
 
@@ -70,17 +67,6 @@ public class ConnFactory {
             stmt.executeUpdate(sqlCreateTable);
         }
     }
-
-    private static void addFirstUserInTable(Connection conn) throws SQLException {
-        String sqlCreateFirstUser = "INSERT INTO USER (" 
-                                    + "name, highScore) "
-                                    + "VALUES ('Rodrigo', 200)";
-        
-        try (Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(sqlCreateFirstUser);
-        }
-    }
-    
 
     public static void disconnect(Connection conn) throws SQLException {
         conn.close();

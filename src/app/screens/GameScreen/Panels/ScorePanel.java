@@ -71,7 +71,11 @@ public class ScorePanel extends JPanel {
         try {
             ConnFactory bd = new ConnFactory();
             conn = bd.getConnection();
-            highScoreLabel = new JLabel("High Score: " + User.getMaxHighScore(conn) + " by " + User.getPalyerWithMaxHighScore(conn));
+            if (User.getMaxHighScore(conn) == 0) {
+                highScoreLabel = new JLabel("High Score: 0");
+            } else {
+                highScoreLabel = new JLabel("High Score: " + User.getMaxHighScore(conn) + " by " + User.getPlayerWithMaxHighScore(conn));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

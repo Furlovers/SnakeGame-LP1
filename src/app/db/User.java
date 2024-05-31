@@ -91,21 +91,21 @@ public class User {
             if (rs.next()) {
                 return rs.getInt(1);
             } else {
-                throw new RuntimeException("No high score found");
+                return 0;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
     
-    public static String getPalyerWithMaxHighScore(Connection conn) {
+    public static String getPlayerWithMaxHighScore(Connection conn) {
         String sqlSelect = "SELECT name FROM USER WHERE highScore = (SELECT MAX(highScore) FROM USER)";
         try (PreparedStatement stmt = conn.prepareStatement(sqlSelect);
              ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
                 return rs.getString(1);
             } else {
-                throw new RuntimeException("No high score found");
+                return "";
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

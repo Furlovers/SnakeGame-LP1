@@ -77,7 +77,7 @@ public class GameOverFrame implements ActionListener {
 
             // gets the high score and the player with the high score
             String highScoreString2 = "High Score: " + User.getMaxHighScore(conn) + " by "
-                    + User.getPalyerWithMaxHighScore(conn);
+                    + User.getPlayerWithMaxHighScore(conn);
             g.drawString(highScoreString2,
                     (gamePanel.getWidth() - g.getFontMetrics().stringWidth(highScoreString2)) / 2,
                     gamePanel.getHeight() / 2 + 50);
