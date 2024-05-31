@@ -83,7 +83,7 @@ public class User {
     }
 
     public static int getMaxHighScore(Connection conn) {
-        String sqlSelect = "SELECT MAX(highScore), NOME FROM USER";
+        String sqlSelect = "SELECT MAX(highScore), name FROM USER";
         try (PreparedStatement stmt = conn.prepareStatement(sqlSelect);
              ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {

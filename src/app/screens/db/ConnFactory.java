@@ -19,7 +19,7 @@ public class ConnFactory {
         String servidor = "localhost";
         String porta = "3306";
         String database = "TUTORIAL";
-        String usuario = "root";
+        String usuario = "rodrigo";
         String senha =  "admin";
         return DriverManager.getConnection("jdbc:mysql://" + servidor+":" + porta + "/" + database + "?user="+ usuario + "&password=" + senha);
     }
