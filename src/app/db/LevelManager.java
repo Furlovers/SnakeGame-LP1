@@ -1,4 +1,4 @@
-package app.screens.db;
+package app.db;
 
 import java.util.Map;
 import java.util.HashMap;

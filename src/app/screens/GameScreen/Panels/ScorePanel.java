@@ -10,9 +10,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import app.screens.db.ConnFactory;
-import app.screens.db.LevelManager;
-import app.screens.db.User;
+import app.db.ConnFactory;
+import app.db.LevelManager;
+import app.db.User;
 
 public class ScorePanel extends JPanel {
 
@@ -45,9 +45,9 @@ public class ScorePanel extends JPanel {
 
         // Label with the score
         scoreLabel = new JLabel("Score: " + 0);
-        scoreLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        scoreLabel.setFont(new Font("Arial", Font.BOLD, 40));
         scoreLabel.setAlignmentX(CENTER_ALIGNMENT);
-        scoreLabel.setForeground(Color.green);
+        scoreLabel.setForeground(Color.orange);
 
         // Label with the level
         levLabel = new JLabel("Level: " + this.level);
@@ -67,11 +67,11 @@ public class ScorePanel extends JPanel {
         personalHighScore.setAlignmentX(CENTER_ALIGNMENT);
         personalHighScore.setForeground(Color.green);
 
-        // Label with the total high score
+        // Label with the high score
         try {
             ConnFactory bd = new ConnFactory();
             conn = bd.getConnection();
-            highScoreLabel = new JLabel("Total High Score: " + User.getMaxHighScore(conn));
+            highScoreLabel = new JLabel("High Score: " + User.getMaxHighScore(conn) + " by " + User.getPalyerWithMaxHighScore(conn));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,10 +81,6 @@ public class ScorePanel extends JPanel {
 
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(playerNameLabel);
-
-        add(Box.createRigidArea(new Dimension(0, 20)));
-
-        add(scoreLabel);
 
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(levLabel);
@@ -98,6 +94,8 @@ public class ScorePanel extends JPanel {
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(highScoreLabel);
 
+        add(Box.createRigidArea(new Dimension(0, 40)));
+        add(scoreLabel);
     }
 
     public void updateScore(int score) {

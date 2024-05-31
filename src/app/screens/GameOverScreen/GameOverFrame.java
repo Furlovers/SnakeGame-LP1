@@ -8,22 +8,26 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import app.db.ConnFactory;
+import app.db.User;
 import app.screens.GameScreen.Panels.GamePanel;
-import app.screens.db.ConnFactory;
 
 public class GameOverFrame implements ActionListener {
     private GamePanel gamePanel;
     private int score;
-    private int highScore;
+    private int personalHighScore;
 
     private Connection conn = null;
 
     public GameOverFrame(GamePanel gamePanel, Graphics g) {
 
+        // sets the game over frame variables
         this.gamePanel = gamePanel;
         this.score = gamePanel.score;
+        this.personalHighScore = gamePanel.getUser().getHighScore();
+
+        // sets the user's high score if the current score is higher
         gamePanel.getUser().setHighScore(score);
-        this.highScore = gamePanel.getUser().getHighScore();
 
         draw(g);
     }
@@ -47,27 +51,37 @@ public class GameOverFrame implements ActionListener {
             g.setFont(new Font("Arial", Font.BOLD, 50));
 
             // draws game over string
-            g.setColor(Color.green);
+            g.setColor(Color.red);
             g.drawString(gameOverMsg, (gamePanel.getWidth() - g.getFontMetrics().stringWidth(gameOverMsg)) / 2,
                     gamePanel.getHeight() / 3);
         }
 
         // Score String
+        g.setColor(Color.green);
         g.setFont(new Font("Arial", Font.BOLD, 30));
         String scoreString = "Score: " + score;
         g.drawString(scoreString, (gamePanel.getWidth() - g.getFontMetrics().stringWidth(scoreString)) / 2,
                 gamePanel.getHeight() / 2 - 50);
 
         // High score string
-        String highScoreString = "High Score: " + highScore;
+        String highScoreString = "Personal High Score: " + personalHighScore;
         g.drawString(highScoreString, (gamePanel.getWidth() - g.getFontMetrics().stringWidth(highScoreString)) / 2,
                 gamePanel.getHeight() / 2);
 
+        // gets the user data and updates the user in the database
         try {
             ConnFactory bd = new ConnFactory();
             conn = bd.getConnection();
 
             gamePanel.getUser().updateUser(conn);
+
+            // gets the high score and the player with the high score
+            String highScoreString2 = "High Score: " + User.getMaxHighScore(conn) + " by "
+                    + User.getPalyerWithMaxHighScore(conn);
+            g.drawString(highScoreString2,
+                    (gamePanel.getWidth() - g.getFontMetrics().stringWidth(highScoreString2)) / 2,
+                    gamePanel.getHeight() / 2 + 50);
+
         } catch (Exception e) {
             e.printStackTrace();
             if (conn != null) {

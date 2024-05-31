@@ -9,11 +9,11 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import app.db.LevelManager;
+import app.db.User;
 import app.screens.GameOverScreen.GameOverFrame;
 import app.screens.GameScreen.components.RandomPoint;
 import app.screens.GameScreen.components.Tile;
-import app.screens.db.LevelManager;
-import app.screens.db.User;
 
 import java.util.ArrayList;
 
@@ -111,14 +111,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         // buttons panel (game over screen)
         buttonsPanel = new JPanel();
         buttonsPanel.setBackground(Color.black);
-        buttonsPanel.setPreferredSize(new Dimension(200, 280));
+        buttonsPanel.setPreferredSize(new Dimension(200, 220));
         buttonsPanel.setLayout(new FlowLayout());
 
         // adds the buttons to the buttons panel
         buttonsPanel.add(restartButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         buttonsPanel.add(backMenu);
-
         
         add(buttonsPanel, BorderLayout.SOUTH);
 
@@ -146,7 +145,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         // resets the timer accordingly to the level
         this.delay = levelManager.getDelay(level);
-        System.out.println(this.delay);
         timer.setDelay(delay);
 
         // placing the snake and the apple
@@ -219,7 +217,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                     } else {
                         restartButton.setText("Restart");
                     } 
-                    System.out.println(this.level);
                 } else {
                     restartButton.setText("Restart");
                 }

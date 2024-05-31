@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 import javax.swing.JFrame;
 
+import app.db.ConnFactory;
+import app.db.User;
 import app.screens.GameScreen.Panels.GamePanel;
 import app.screens.GameScreen.Panels.ScorePanel;
-import app.screens.db.ConnFactory;
-import app.screens.db.User;
 
 public class GameFrame {
 

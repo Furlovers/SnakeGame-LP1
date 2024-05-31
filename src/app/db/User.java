@@ -1,8 +1,10 @@
-package app.screens.db;
+package app.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.ResultSet;
 
 import javax.naming.spi.DirStateFactory.Result;
@@ -83,11 +85,10 @@ public class User {
     }
 
     public static int getMaxHighScore(Connection conn) {
-        String sqlSelect = "SELECT MAX(highScore), NOME FROM USER";
+        String sqlSelect = "SELECT MAX(highScore) FROM USER";
         try (PreparedStatement stmt = conn.prepareStatement(sqlSelect);
              ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
-                System.out.println(rs.getInt(1));
                 return rs.getInt(1);
             } else {
                 throw new RuntimeException("No high score found");
@@ -97,5 +98,36 @@ public class User {
         }
     }
     
+    public static String getPalyerWithMaxHighScore(Connection conn) {
+        String sqlSelect = "SELECT name FROM USER WHERE highScore = (SELECT MAX(highScore) FROM USER)";
+        try (PreparedStatement stmt = conn.prepareStatement(sqlSelect);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getString(1);
+            } else {
+                throw new RuntimeException("No high score found");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    // ten users with the highest scores
+    public static List<User> getTopTenUsers(Connection conn) {
+        String sqlSelect = "SELECT name, highScore FROM USER ORDER BY highScore DESC LIMIT 10";
+        List<User> topUsers = new ArrayList<>();
+
+        try (PreparedStatement stmt = conn.prepareStatement(sqlSelect);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                String name = rs.getString("name");
+                int highScore = rs.getInt("highScore");
+                topUsers.add(new User(name, highScore));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        
+        return topUsers;
+    }
 }

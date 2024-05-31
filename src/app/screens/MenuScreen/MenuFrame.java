@@ -10,6 +10,7 @@ public class MenuFrame extends JFrame implements ActionListener {
 
     private JButton startBtn;
     private JButton quitBtn;
+    private JButton leaderboardBtn;
 
     private JLabel title;
     private JTextField nameTextField;
@@ -26,7 +27,7 @@ public class MenuFrame extends JFrame implements ActionListener {
 
         // Menu container
         container = new JFrame();
-        container.setLayout(new GridLayout(3, 1, 0, 10));
+        container.setLayout(new GridLayout(4, 1, 0, 10));
         container.setSize(500,400);
         container.setLocationRelativeTo(null);
         container.getContentPane().setBackground(Color.BLACK);
@@ -77,6 +78,15 @@ public class MenuFrame extends JFrame implements ActionListener {
         quitBtn.setFocusPainted(false);
         quitBtn.setFont(new Font("Arial", Font.BOLD, 25));
 
+        // leaderboard button
+        leaderboardBtn = new JButton("Leaderboard");
+        leaderboardBtn.setBackground(Color.green);
+        leaderboardBtn.setPreferredSize(new Dimension(200, 50));
+        leaderboardBtn.addActionListener(this);
+        leaderboardBtn.setBorderPainted(false);
+        leaderboardBtn.setFocusPainted(false);
+        leaderboardBtn.setFont(new Font("Arial", Font.BOLD, 25));
+
         // panel with the name field
         JPanel namePanel = new JPanel();
         namePanel.add(nameLabel);  
@@ -84,20 +94,27 @@ public class MenuFrame extends JFrame implements ActionListener {
         namePanel.add(nameTextField);
         namePanel.setBackground(Color.BLACK);
 
-        // panel with the buttons
+        // panel with the start and quit buttons
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.add(startBtn);
         buttonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         buttonsPanel.add(quitBtn);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         buttonsPanel.setBackground(Color.BLACK);
         buttonsPanel.setSize(400, 400);
+
+        // panel with the leaderboard button
+        JPanel buttonLeaderBoardPanel = new JPanel();
+        buttonLeaderBoardPanel.add(leaderboardBtn);
+        buttonLeaderBoardPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        buttonLeaderBoardPanel.setBackground(Color.BLACK);
+        buttonLeaderBoardPanel.setSize(400, 300);
 
         container.add(title);
         // container.add(imageLabel);
         container.add(namePanel);
         container.add(buttonsPanel);
-        
-
+        container.add(buttonLeaderBoardPanel);
         container.setVisible(true);
     }
 
@@ -114,6 +131,9 @@ public class MenuFrame extends JFrame implements ActionListener {
             new GameFrame(level, name);
         } else if (e.getSource() == quitBtn) {
             System.exit(0);
+        } else if (e.getSource() == leaderboardBtn) {
+            // creates the leaderboard frame
+            // new LeaderboardFrame();
         }
     }
 }
