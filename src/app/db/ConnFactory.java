@@ -20,7 +20,7 @@ public class ConnFactory {
         String servidor = "localhost";
         String porta = "3306";
         String database = "TUTORIAL";
-        String usuario = "root";
+        String usuario = "rodrigo";
         String senha =  "admin";
 
         // Connect to the MySQL server without specifying a database
@@ -29,7 +29,14 @@ public class ConnFactory {
         // Create the database if it does not exist
         createDatabaseIfNotExists(conn, database);
 
+        // Use the database created
+        UseDatabaseCreated(conn, database);
+
+        // Create the table if it does not exist
         createTableIfNotExists(conn);
+
+        // Add the first user in the table
+        addFirstUserInTable(conn);
         
         // Close the initial connection
         conn.close();
@@ -45,6 +52,14 @@ public class ConnFactory {
         }
     }
 
+    private static void UseDatabaseCreated(Connection conn, String database) throws SQLException {
+        String sqlUseDB = "USE " + database;
+        
+        try (Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sqlUseDB);
+        }
+    }
+
     private static void createTableIfNotExists(Connection conn) throws SQLException {
         String sqlCreateTable = "CREATE TABLE IF NOT EXISTS User ("
                                 + "name VARCHAR(255) NOT NULL, "
@@ -55,6 +70,17 @@ public class ConnFactory {
             stmt.executeUpdate(sqlCreateTable);
         }
     }
+
+    private static void addFirstUserInTable(Connection conn) throws SQLException {
+        String sqlCreateFirstUser = "INSERT INTO USER (" 
+                                    + "name, highScore) "
+                                    + "VALUES ('Rodrigo', 200)";
+        
+        try (Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sqlCreateFirstUser);
+        }
+    }
+    
 
     public static void disconnect(Connection conn) throws SQLException {
         conn.close();
