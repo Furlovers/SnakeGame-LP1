@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import app.screens.GameScreen.GameFrame;
+import app.screens.LeaderboardScreen.LeaderboardFrame;
 
 public class MenuFrame extends JFrame implements ActionListener {
 
@@ -133,7 +134,7 @@ public class MenuFrame extends JFrame implements ActionListener {
             System.exit(0);
         } else if (e.getSource() == leaderboardBtn) {
             // creates the leaderboard frame
-            // new LeaderboardFrame();
+            new LeaderboardFrame();
         }
     }
 }

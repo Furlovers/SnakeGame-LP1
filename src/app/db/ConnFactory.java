@@ -19,8 +19,8 @@ public class ConnFactory {
     public static Connection getConnection() throws SQLException {
         String servidor = "localhost";
         String porta = "3306";
-        String database = "PROJETOLP";
-        String usuario = "rodrigo";
+        String database = "TUTORIAL";
+        String usuario = "root";
         String senha =  "admin";
 
         // Connect to the MySQL server without specifying a database
