@@ -20,7 +20,7 @@ public class ConnFactory {
         String servidor = "localhost";
         String porta = "3306";
         String database = "PROJETOLP";
-        String usuario = "root";
+        String usuario = "rodrigo";
         String senha =  "admin";
 
         // Connect to the MySQL server without specifying a database

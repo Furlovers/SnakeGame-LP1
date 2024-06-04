@@ -84,6 +84,7 @@ public class User {
         }
     }
 
+    //gets the max highscore value from the database
     public static int getMaxHighScore(Connection conn) {
         String sqlSelect = "SELECT MAX(highScore) FROM USER";
         try (PreparedStatement stmt = conn.prepareStatement(sqlSelect);
@@ -98,6 +99,7 @@ public class User {
         }
     }
     
+    //get the name of the player with the max highscore
     public static String getPlayerWithMaxHighScore(Connection conn) {
         String sqlSelect = "SELECT name FROM USER WHERE highScore = (SELECT MAX(highScore) FROM USER)";
         try (PreparedStatement stmt = conn.prepareStatement(sqlSelect);
