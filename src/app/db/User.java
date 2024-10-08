@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 public class User {
     private String name;
     private int highScore;

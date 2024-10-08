@@ -10,7 +10,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import app.db.User;
-import app.screens.GameOverScreen.GameOverFrame;
 import app.screens.GameScreen.components.RandomPoint;
 import app.screens.GameScreen.components.Tile;
 

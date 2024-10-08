@@ -63,8 +63,7 @@ public class GameOverFrame implements ActionListener {
 
         // gets the user data and updates the user in the database
         try {
-            ConnFactory bd = new ConnFactory();
-            conn = bd.getConnection();
+            conn = ConnFactory.getConnection();
 
             gamePanel.getUser().updateUser(conn);
 

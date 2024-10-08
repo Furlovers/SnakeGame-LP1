@@ -52,8 +52,7 @@ public class ScorePanel extends JPanel {
 
         // Label with the high score
         try {
-            ConnFactory bd = new ConnFactory();
-            conn = bd.getConnection();
+            conn = ConnFactory.getConnection();
             if (User.getMaxHighScore(conn) == 0) {
                 highScoreLabel = new JLabel("High Score: 0");
             } else {

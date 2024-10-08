@@ -54,8 +54,7 @@ public class GameFrame {
 
         try {
 
-            ConnFactory bd = new ConnFactory();
-            conn = bd.getConnection();
+            conn = ConnFactory.getConnection();
 
             try {
                 user.readUser(conn);

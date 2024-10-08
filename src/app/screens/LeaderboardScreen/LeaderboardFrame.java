@@ -8,15 +8,12 @@ import java.awt.event.ActionListener;
 
 import java.sql.Connection;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -80,8 +77,7 @@ public class LeaderboardFrame extends JFrame implements ActionListener{
 
         // adds the players to the table
         try {
-            ConnFactory bd = new ConnFactory();
-            conn = bd.getConnection();
+            conn = ConnFactory.getConnection();
 
             int rank = 1;
             for (User user : User.getTopTenUsers(conn)) {
