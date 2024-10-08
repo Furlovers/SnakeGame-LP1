@@ -19,7 +19,6 @@ public class MenuFrame extends JFrame implements ActionListener {
 
     private String name;
     public int highScore = 0;
-    private int level = 0;
 
     private JFrame container;
 
@@ -121,7 +120,6 @@ public class MenuFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        level++;
         if (e.getSource() == startBtn) {
             // gets the user name
             name = nameTextField.getText();
@@ -129,7 +127,7 @@ public class MenuFrame extends JFrame implements ActionListener {
                 name = "Unnamed Player";
             }
             // creates the game frame
-            new GameFrame(level, name);
+            new GameFrame(name);
         } else if (e.getSource() == quitBtn) {
             System.exit(0);
         } else if (e.getSource() == leaderboardBtn) {

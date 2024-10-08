@@ -9,7 +9,6 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import app.db.LevelManager;
 import app.db.User;
 import app.screens.GameOverScreen.GameOverFrame;
 import app.screens.GameScreen.components.RandomPoint;
@@ -57,13 +56,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private JPanel buttonsPanel;
     private JButton backMenu;
 
-    // Level
-    private int level;
-
     // other panels
     private ScorePanel scorePanel;
     private JFrame gameFrame;
-    private LevelManager levelManager = new LevelManager();
 
     // user
     private User user;
@@ -74,7 +69,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.black);
         setLayout(new BorderLayout());
-        
 
         // listen to keys pressed by the user
         addKeyListener(this);
@@ -83,7 +77,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         this.scorePanel = scorePanel;
 
-        // sets the panel properties 
+        // sets the panel properties
         this.height = height;
         this.width = width;
         this.delay = delay;
@@ -118,15 +112,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         buttonsPanel.add(restartButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         buttonsPanel.add(backMenu);
-        
+
         add(buttonsPanel, BorderLayout.SOUTH);
 
         // sets the time in which the screen is redrawn (100 ms)
         timer = new Timer(this.delay, this);
         timer.start();
-
-        // inicial level
-        level = 1;
 
         // starts the game
         startGame();
@@ -142,10 +133,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         scorePanel.setVisible(true);
         score = 0;
         scorePanel.updatePersonalHighScore(user.getHighScore());
-
-        // resets the timer accordingly to the level
-        this.delay = levelManager.getDelay(level);
-        timer.setDelay(delay);
 
         // placing the snake and the apple
         snakeBody = new ArrayList<Tile>();
@@ -196,39 +183,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             for (Tile tile : snakeBody) {
                 if (isSameTile(snake, tile)) {
                     gameOver = true;
-                    if(this.score >= levelManager.getMinScore(this.level)){
-                        this.level++;
-                        restartButton.setText("Level " + this.level);
-                        scorePanel.updateMinScore(this.level);
-                    } else {
-                        restartButton.setText("Restart");
-                    }
                 }
             }
 
             if (snake.x * tile_size < 0 || snake.x * tile_size >= width || snake.y * tile_size < 0
                     || snake.y * tile_size >= height) {
                 gameOver = true;
-                if(this.score >= levelManager.getMinScore(this.level)){
-                    this.level++;
-                    if(this.level <= 4) {
-                        restartButton.setText("Level " + this.level);
-                        scorePanel.updateMinScore(this.level);
-                    } else {
-                        restartButton.setText("Restart");
-                    } 
-                } else {
-                    restartButton.setText("Restart");
-                }
-            }
 
-            // random obstacle mode
-            // if (snake.x == randomImgTileX && snake.y == randomImgTileY) {
-            // endGame();
-            // }
+            } else {
+                restartButton.setText("Restart");
+            }
         }
 
+        // random obstacle mode
+        // if (snake.x == randomImgTileX && snake.y == randomImgTileY) {
+        // endGame();
+        // }
     }
+
 
     public boolean isSameTile(Tile tile1, Tile tile2) {
         return (tile1.x == tile2.x && tile1.y == tile2.y);
@@ -280,12 +252,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             restartButton.setVisible(true);
             buttonsPanel.setVisible(true);
 
-            //  hides the score panel
+            // hides the score panel
             scorePanel.setVisible(false);
 
-            
-            scorePanel.updateLevel(this.level);
-            new GameOverFrame(this, g);
         }
 
     }
@@ -342,14 +311,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
     }
 
-    // function to get the current level
-    public int getLevel() {
-        return this.level;
-    }
 
     public User getUser() {
         return this.user;
     }
 }
-
-

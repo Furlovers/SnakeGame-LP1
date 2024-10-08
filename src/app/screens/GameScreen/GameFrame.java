@@ -21,7 +21,7 @@ public class GameFrame {
 
     private GamePanel gamePanel;
 
-    public GameFrame(int level, String name) {
+    public GameFrame(String name) {
 
         // creates the user object
         User user = new User(name, 0);
@@ -39,7 +39,7 @@ public class GameFrame {
         container.setResizable(false);
 
         // score label
-        ScorePanel scorePanel = new ScorePanel(level, user);
+        ScorePanel scorePanel = new ScorePanel(user);
         container.add(scorePanel, BorderLayout.EAST);
 
         // adds the game to the container

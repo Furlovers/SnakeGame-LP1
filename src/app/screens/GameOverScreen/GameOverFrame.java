@@ -40,21 +40,14 @@ public class GameOverFrame implements ActionListener {
         g.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
 
         // Game Over String
-        if (gamePanel.getLevel() > 4) {
-            String gameWinMsg = "You Win!";
-            g.setFont(new Font("Arial", Font.BOLD, 50));
-            g.setColor(Color.green);
-            g.drawString(gameWinMsg, (gamePanel.getWidth() - g.getFontMetrics().stringWidth(gameWinMsg)) / 2,
-                    gamePanel.getHeight() / 3);
-        } else {
-            String gameOverMsg = "Game Over";
-            g.setFont(new Font("Arial", Font.BOLD, 50));
 
-            // draws game over string
-            g.setColor(Color.red);
-            g.drawString(gameOverMsg, (gamePanel.getWidth() - g.getFontMetrics().stringWidth(gameOverMsg)) / 2,
-                    gamePanel.getHeight() / 3);
-        }
+        String gameOverMsg = "Game Over";
+        g.setFont(new Font("Arial", Font.BOLD, 50));
+
+        // draws game over string
+        g.setColor(Color.red);
+        g.drawString(gameOverMsg, (gamePanel.getWidth() - g.getFontMetrics().stringWidth(gameOverMsg)) / 2,
+                gamePanel.getHeight() / 3);
 
         // Score String
         g.setColor(Color.green);

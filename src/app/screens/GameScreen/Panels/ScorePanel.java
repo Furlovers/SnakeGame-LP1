@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import app.db.ConnFactory;
-import app.db.LevelManager;
 import app.db.User;
 
 public class ScorePanel extends JPanel {
@@ -19,18 +18,13 @@ public class ScorePanel extends JPanel {
     private int score;
 
     private JLabel scoreLabel;
-    private JLabel levLabel;
-    private JLabel minScorLabel;
     private JLabel playerNameLabel;
     private JLabel personalHighScore;
     private JLabel highScoreLabel;
 
-    private int level = 1;
     private Connection conn = null;
 
-    private LevelManager levelManager = new LevelManager();
-
-    public ScorePanel(int level, User user) {
+    public ScorePanel(User user) {
 
         setBackground(Color.black);
         setPreferredSize(new Dimension(300, 600));
@@ -49,17 +43,6 @@ public class ScorePanel extends JPanel {
         scoreLabel.setAlignmentX(CENTER_ALIGNMENT);
         scoreLabel.setForeground(Color.orange);
 
-        // Label with the level
-        levLabel = new JLabel("Level: " + this.level);
-        levLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        levLabel.setAlignmentX(CENTER_ALIGNMENT);
-        levLabel.setForeground(Color.green);
-
-        // Label with the minimum score
-        minScorLabel = new JLabel("Minimum Score: " + levelManager.getMinScore(this.level));
-        minScorLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        minScorLabel.setAlignmentX(CENTER_ALIGNMENT);
-        minScorLabel.setForeground(Color.green);
 
         // Label with the personal high score
         personalHighScore = new JLabel("Personal High Score: " + user.getHighScore());
@@ -86,11 +69,6 @@ public class ScorePanel extends JPanel {
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(playerNameLabel);
 
-        add(Box.createRigidArea(new Dimension(0, 20)));
-        add(levLabel);
-
-        add(Box.createRigidArea(new Dimension(0, 20)));
-        add(minScorLabel);
 
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(personalHighScore);
@@ -109,15 +87,6 @@ public class ScorePanel extends JPanel {
 
     public int getScore() {
         return this.score;
-    }
-
-    public void updateLevel(int level) {
-        this.level = level;
-        levLabel.setText("Level " + this.level);
-    }
-
-    public void updateMinScore(int level) {
-        minScorLabel.setText("Minimum Score: " + levelManager.getMinScore(level));
     }
 
     public void updatePersonalHighScore(int highScore) {
